@@ -3,6 +3,7 @@ import { createFixedClock } from './clock';
 import { CONFIG } from './config';
 import { createGame, stepGame } from './game';
 import { createInputController } from './input';
+import { createSeededRandom } from './random';
 import { render } from './renderer';
 import type { GameState } from './types';
 import { createGameUi } from './ui';
@@ -37,7 +38,9 @@ const canvas = canvasElement;
 
 let context: CanvasRenderingContext2D;
 const state = createGame(CONFIG);
-const random = Math.random;
+const testMode = import.meta.env.DEV && new URLSearchParams(window.location.search).get('test') === '1';
+const seed = testMode ? 42 : crypto.getRandomValues(new Uint32Array(1))[0] ?? Date.now();
+const random = createSeededRandom(seed);
 const clock = createFixedClock(CONFIG.timing.fixedStep, CONFIG.timing.maxFrameElapsed);
 const input = createInputController(shell, [startButtonElement, restartButtonElement]);
 const ui = createGameUi({
@@ -49,7 +52,6 @@ const ui = createGameUi({
   announcer: announcerElement,
   canvas,
 });
-const testMode = import.meta.env.DEV && new URLSearchParams(window.location.search).get('test') === '1';
 let previousTimestamp: number | null = null;
 let presentationTime = 0;
 

@@ -7,11 +7,54 @@ export function render(
   config: Readonly<GameConfig>,
 ): void {
   drawHallway(context, config);
+  for (const pair of state.pairs) drawLockerPair(context, pair.x, pair.gapCenter, config);
   drawFloor(context, config);
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const bob = state.phase === 'IDLE' && !reduceMotion ? Math.sin(presentationTime * 3) * 5 : 0;
   drawBird(context, state.player.x, state.player.y + bob, state.player.vy, config);
+}
+
+export function drawLockerPair(
+  context: CanvasRenderingContext2D,
+  x: number,
+  gapCenter: number,
+  config: Readonly<GameConfig>,
+): void {
+  const floorTop = config.world.height - config.world.floorHeight;
+  const gapTop = gapCenter - config.obstacles.gapHeight / 2;
+  const gapBottom = gapCenter + config.obstacles.gapHeight / 2;
+  drawLocker(context, x, 0, config.obstacles.width, gapTop, false, config);
+  drawLocker(
+    context,
+    x,
+    gapBottom,
+    config.obstacles.width,
+    floorTop - gapBottom,
+    true,
+    config,
+  );
+}
+
+export function drawLocker(
+  context: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  opensUpward: boolean,
+  config: Readonly<GameConfig>,
+): void {
+  if (height <= 0) return;
+  context.fillStyle = '#34383D';
+  context.fillRect(x, y, width, height);
+  context.strokeStyle = config.palette.silver;
+  context.lineWidth = 2;
+  context.strokeRect(x + 1, y + 1, width - 2, height - 2);
+
+  const edgeY = opensUpward ? y : y + height;
+  context.fillStyle = config.palette.red;
+  context.fillRect(x - 3, edgeY - (opensUpward ? 0 : 6), width + 6, 6);
 }
 
 export function drawHallway(context: CanvasRenderingContext2D, config: Readonly<GameConfig>): void {

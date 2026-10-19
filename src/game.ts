@@ -1,4 +1,5 @@
 import { flap, updatePlayer } from './physics';
+import { updateObstacles } from './obstacles';
 import type { GameConfig, GameState } from './types';
 
 export type RandomSource = () => number;
@@ -32,8 +33,6 @@ export function stepGame(
   rng: RandomSource,
   config: Readonly<GameConfig>,
 ): void {
-  void rng;
-
   if (state.phase === 'GAME_OVER') {
     state.gameOverElapsed += dt;
     if (action && state.gameOverElapsed >= config.timing.restartLockout) resetGame(state, config);
@@ -50,6 +49,7 @@ export function stepGame(
 
   state.runTime += dt;
   updatePlayer(state.player, dt, config);
+  updateObstacles(state, dt, rng, config);
 
   const floorTop = config.world.height - config.world.floorHeight;
   const hitboxBottom = state.player.y + config.player.height - config.player.insetY;
