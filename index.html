@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#171717" />
+    <meta
+      name="description"
+      content="Flappy Highlander, an original one-button school hallway flying game."
+    />
+    <title>Flappy Highlander</title>
+  </head>
+  <body>
+    <main id="app" aria-label="Flappy Highlander game">
+      <div id="game-shell">
+        <canvas
+          id="game-canvas"
+          width="400"
+          height="600"
+          tabindex="-1"
+          role="img"
+          aria-label="Flappy Highlander game playfield"
+        ></canvas>
+        <section id="start-panel" class="panel" aria-labelledby="game-title">
+          <p class="eyebrow">Northern Highlands AI Club</p>
+          <h1 id="game-title">Flappy<br />Highlander</h1>
+          <p class="instructions">Guide the Highlander bird through the locker-lined halls.</p>
+          <button id="start-button" type="button">Start flying</button>
+          <p class="control-hint">Space · Arrow Up · Click · Tap</p>
+        </section>
+        <div id="score" aria-label="Score" hidden>0</div>
+        <section id="game-over-panel" class="panel" aria-labelledby="game-over-title" hidden>
+          <p class="eyebrow">Run complete</p>
+          <h2 id="game-over-title">Game over</h2>
+          <p class="final-score">Score <strong id="final-score">0</strong></p>
+          <button id="restart-button" type="button">Try again</button>
+          <p class="control-hint">Space · Arrow Up · Click · Tap</p>
+        </section>
+      </div>
+      <div id="game-announcer" class="sr-only" aria-live="polite"></div>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
