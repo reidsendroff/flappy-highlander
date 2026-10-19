@@ -55,6 +55,10 @@ canvas {
   background: #d8dadd;
 }
 
+#game-canvas:focus {
+  outline: none;
+}
+
 .panel {
   position: absolute;
   inset: 0;
