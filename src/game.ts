@@ -1,3 +1,4 @@
+import { getPlayerHitbox, touchesFloor, touchesLocker } from './collision';
 import { flap, updatePlayer } from './physics';
 import { updateObstacles } from './obstacles';
 import type { GameConfig, GameState } from './types';
@@ -51,12 +52,24 @@ export function stepGame(
   updatePlayer(state.player, dt, config);
   updateObstacles(state, dt, rng, config);
 
-  const floorTop = config.world.height - config.world.floorHeight;
-  const hitboxBottom = state.player.y + config.player.height - config.player.insetY;
-  if (hitboxBottom >= floorTop) {
-    state.player.y = floorTop - config.player.height + config.player.insetY;
+  const playerHitbox = getPlayerHitbox(state.player, config);
+  const hitFloor = touchesFloor(playerHitbox, config);
+  const hitLocker = state.pairs.some((pair) => touchesLocker(playerHitbox, pair, config));
+  if (hitFloor || hitLocker) {
+    if (hitFloor) {
+      const floorTop = config.world.height - config.world.floorHeight;
+      state.player.y = floorTop - config.player.height + config.player.insetY;
+    }
     state.phase = 'GAME_OVER';
     state.gameOverElapsed = 0;
+    return;
+  }
+
+  for (const pair of state.pairs) {
+    if (!pair.scored && pair.x + config.obstacles.width < playerHitbox.x) {
+      pair.scored = true;
+      state.score += 1;
+    }
   }
 }
 
