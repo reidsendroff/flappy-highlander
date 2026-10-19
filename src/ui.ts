@@ -14,7 +14,7 @@ export interface GameUi {
   update(state: Readonly<GameState>): void;
 }
 
-export function createGameUi(elements: UiElements): GameUi {
+export function createGameUi(elements: UiElements, restartLockout: number): GameUi {
   let previousPhase: GamePhase | null = null;
   let restartFocused = false;
 
@@ -38,7 +38,7 @@ export function createGameUi(elements: UiElements): GameUi {
         previousPhase = state.phase;
       }
 
-      if (state.phase === 'GAME_OVER' && state.gameOverElapsed >= 0.35 && !restartFocused) {
+      if (state.phase === 'GAME_OVER' && state.gameOverElapsed >= restartLockout && !restartFocused) {
         elements.restartButton.focus({ preventScroll: true });
         restartFocused = true;
       }

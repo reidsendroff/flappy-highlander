@@ -51,7 +51,7 @@ const ui = createGameUi({
   restartButton: restartButtonElement,
   announcer: announcerElement,
   canvas,
-});
+}, CONFIG.timing.restartLockout);
 let previousTimestamp: number | null = null;
 let presentationTime = 0;
 
