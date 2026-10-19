@@ -4,6 +4,8 @@ Flappy Highlander is an original one-button Canvas game created for a high-schoo
 
 The project has no runtime dependencies or downloaded media. Game rules are strict TypeScript modules, visuals are isolated Canvas drawing functions, and the browser shell uses accessible HTML controls.
 
+Play the deployed game at [flappy-highlander-production.up.railway.app](https://flappy-highlander-production.up.railway.app/).
+
 ## Run locally
 
 Requirements: Node.js 24 and npm.
@@ -57,5 +59,5 @@ The original artwork is procedural and makes no network requests. Replace the bo
 
 ## MVP boundaries
 
-The MVP intentionally omits deployment, persistent high scores, difficulty levels, sound, music, polished external art, power-ups, boss encounters, accounts, backend services, analytics, and multiplayer.
+The MVP intentionally omits persistent high scores, difficulty levels, sound, music, polished external art, power-ups, boss encounters, accounts, backend services, analytics, and multiplayer.
 
