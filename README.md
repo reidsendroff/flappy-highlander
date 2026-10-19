@@ -33,6 +33,8 @@ npm run preview -- --host 127.0.0.1
 
 The production build uses relative URLs and can be served from a static host or subdirectory.
 
+For Railway or another Node host, build with `npm run build` and start with `npm start`. The dependency-free server listens on the host-provided `PORT` and serves `dist/`.
+
 ## Architecture
 
 The game runs in a fixed 400 × 600 logical coordinate system. CSS and `src/viewport.ts` fit that playfield into laptop and phone screens without changing physics. A fixed 60 Hz simulation makes movement independent of display refresh rate.
